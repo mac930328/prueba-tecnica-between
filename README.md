@@ -84,10 +84,10 @@ ecommerce
 │       │       └── between
 │       │           └── ecommerce
 │       │               ├── EcommerceApplicationTest.java
-│       │               ├── application
-│       │               │   └── mappers
-│       │               │       └── PriceDtoMapperTest.java
 │       │               └── pricing
+│       │                   ├── application
+│       │                   │   └── mappers
+│       │                   │       └── PriceDtoMapperTest.java
 │       │                   └── infrastructure
 │       │                       ├── adapters
 │       │                       │   ├── PriceH2AdapterTest.java
