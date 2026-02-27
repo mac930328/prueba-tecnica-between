@@ -144,7 +144,3 @@ docker-compose up -d --force-recreate --build swagger-ui
 ## Repositorio y contacto
 
 Para más información y pruebas de ejemplo revisa los tests en `src/test/java/...` y el archivo de datos `src/main/resources/data.sql`.
-
----
-
-Gracias — si quieres que añada ejemplos adicionales (Postman collection import o instrucciones para ejecutar Newman), lo hago y lo incluyo en el README.

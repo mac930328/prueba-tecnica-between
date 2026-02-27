@@ -23,19 +23,7 @@ docker-compose up --build -d
 - H2 TCP para la aplicación: jdbc:h2:tcp://h2db:1521/appdb
 - JaCoCo report (si generaste tests localmente antes): http://localhost:9000
 
-3) Notas importantes:
-- Asegúrate de que el servicio `h2db` permite la creacion remota de bases añadiendo la opcion `-ifNotExists` (es frecuente en la variable `H2_OPTIONS`). Esto permite que la base `appdb` se cree al primer acceso.
-- `depends_on` no garantiza que `h2db` esté listo; para robustecer el arranque puedes:
-  - añadir un `healthcheck` en `docker-compose.yml` para `h2db` y esperar su estadohealthy, o
-  - añadir un script `wait-for` en el contenedor `app` que pruebe `h2db:1521` antes de arrancar la app.
-
-4) Ejecutar Newman manualmente para correr la colección Postman incluida (si configuras el servicio newman):
-
-```powershell
-docker-compose run --rm newman run /etc/newman/collection.json
-```
-
-Notas:
+3) Notas:
 - El Dockerfile usa Maven para compilar la JAR; la imagen `app` construirá la aplicación en la fase de build.
 - El servicio `jacoco-report` sirve los archivos desde `target/site/jacoco`. Ejecuta `mvn test` localmente o en CI para generar el reporte antes de levantar ese servicio.
 - Si prefieres usar PostgreSQL en lugar de H2, modifica `docker-compose.yml` y `src/main/resources/application.yml`.
