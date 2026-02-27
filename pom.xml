@@ -27,11 +27,13 @@
         <url/>
     </scm>
     <properties>
-        <java.version>17</java.version>
+        <java.version>21</java.version>
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
         <spock-spring.version>2.4-M4-groovy-4.0</spock-spring.version>
         <gmavenplus-plugin.version>3.0.2</gmavenplus-plugin.version>
+        <!-- Ensure resources are filtered/processed using UTF-8 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
         <dependency>
@@ -89,16 +91,20 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>2.1.0</version>
-        </dependency>
+        <!-- springdoc removed: API docs provided via static openapi.yml -->
 
     </dependencies>
 
     <build>
         <plugins>
+            <!-- Ensure resource filtering uses UTF-8 -->
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
+                <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

@@ -1,0 +1,29 @@
+{
+  "info": {
+    "name": "Between E-commerce API",
+    "_postman_id": "ecommerce-sample",
+    "description": "Colección mínima para probar el endpoint /api/price",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get price example",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/price?applicationDate=2020-06-14T16:00:00&productId=35455&brandId=1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api","price"],
+          "query": [
+            { "key": "applicationDate", "value": "2020-06-14T16:00:00" },
+            { "key": "productId", "value": "35455" },
+            { "key": "brandId", "value": "1" }
+          ]
+        }
+      }
+    }
+  ]
+}

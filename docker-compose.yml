@@ -1,0 +1,48 @@
+services:
+  app:
+    build: .
+    image: between-ecommerce-app:latest
+    container_name: between-ecommerce-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - h2db
+    environment:
+      - JDBC_DATABASE_URL=jdbc:h2:tcp://h2db:1521/appdb
+
+  h2db:
+    image: oscarfonts/h2:2.0.204
+    container_name: between-h2
+    environment:
+      - H2_OPTIONS=-ifNotExists
+    ports:
+      - 1521:1521
+      - 81:81
+
+  swagger-ui:
+    image: swaggerapi/swagger-ui:latest
+    container_name: between-swagger-ui
+    volumes:
+      - ./src/main/resources/static/openapi.yml:/usr/share/nginx/html/openapi.yml:ro
+      - ./swagger-config/index.html:/usr/share/nginx/html/index.html:ro
+    environment:
+      - URL=/openapi.yml
+    ports:
+      - "8081:8080"
+    depends_on:
+      - app
+
+  jacoco-report:
+    image: httpd:2.4-alpine
+    container_name: between-jacoco-report
+    depends_on:
+      - app
+    volumes:
+      - ./target/site/jacoco:/usr/local/apache2/htdocs:ro
+    ports:
+      - "9000:80"
+    restart: "no"
+
+volumes:
+  h2-data:
+    driver: local

@@ -1,0 +1,123 @@
+openapi: 3.0.3
+info:
+  title: API Ecommerce - Precios
+  version: 1.0.0
+  description: |
+    OpenAPI que describe el endpoint para consultar precios de productos.
+    Este archivo se sirve como recurso estático en /openapi.yml y puede
+    ser consumido por Swagger UI.
+servers:
+  - url: http://localhost:8080
+    description: Servidor local (desarrollo)
+tags:
+  - name: Price
+    description: Operaciones relacionadas con precios
+paths:
+  /api/price:
+    get:
+      tags:
+        - Price
+      summary: Obtener precio aplicable
+      description: Obtiene el precio aplicable para un producto en una fecha dada.
+      parameters:
+        - name: applicationDate
+          in: query
+          required: true
+          description: Fecha y hora de aplicación (formato yyyy-MM-ddTHH:mm:ss)
+          schema:
+            type: string
+            format: date-time
+        - name: productId
+          in: query
+          required: true
+          description: Identificador del producto
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+        - name: brandId
+          in: query
+          required: true
+          description: Identificador de la marca
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: Precio encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceDto'
+        '400':
+          description: Parámetros inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GlobalError'
+        '404':
+          description: Precio no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GlobalError'
+components:
+  schemas:
+    PriceDto:
+      type: object
+      properties:
+        priceList:
+          type: integer
+          description: Identificador de la lista de precios
+          example: 2
+        productId:
+          type: integer
+          description: Identificador del producto
+          example: 35455
+        brandId:
+          type: integer
+          description: Identificador de la marca
+          example: 1
+        startDate:
+          type: string
+          format: date-time
+          description: Fecha de inicio de vigencia
+          example: 2020-06-14T15:00:00
+        endDate:
+          type: string
+          format: date-time
+          description: Fecha de fin de vigencia
+          example: 2020-06-14T18:30:00
+        price:
+          type: number
+          format: double
+          description: Precio final aplicado
+          example: 25.45
+      required:
+        - priceList
+        - productId
+        - brandId
+        - startDate
+        - endDate
+        - price
+    GlobalError:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: Marca temporal del error
+          example: 2026-02-26T22:00:00Z
+        status:
+          type: integer
+          description: Código HTTP
+          example: 404
+        error:
+          type: string
+          description: Breve descripción del error
+          example: Not Found
+        message:
+          type: string
+          description: Mensaje legible del error
+          example: There is no record

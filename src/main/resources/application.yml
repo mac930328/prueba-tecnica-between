@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: ecommerce
+  main:
+    allow-bean-definition-overriding: true
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: ${JDBC_DATABASE_URL:jdbc:h2:mem:appdb}
+    driverClassName: org.h2.Driver
+    username: sa
+    password: sa
+    data: classpath:data.sql
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:data.sql
+
+# Disable springdoc autogeneration because we use a static openapi.yml
+springdoc:
+  api-docs:
+    enabled: false
+    path: /api-docs
+  swagger-ui:
+    enabled: false
+    path: /swagger-ui.html
+
+# Static resources: Spring Boot serves classpath:/static/ at /
+# openapi.yml is in src/main/resources/static/openapi.yml and will be accessible at /openapi.yml

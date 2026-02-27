@@ -9,26 +9,46 @@ import org.mapstruct.factory.Mappers;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(MockitoExtension.class)
 class ProductEntityMapperTest {
 
-    private ProductEntityMapper productEntityMapper;
+	private ProductEntityMapper productEntityMapper;
 
-    @BeforeEach
-    void setUp() {
-        this.productEntityMapper = Mappers.getMapper(ProductEntityMapper.class);
-    }
+	@BeforeEach
+	void setUp() {
+		this.productEntityMapper = Mappers.getMapper(ProductEntityMapper.class);
+	}
 
-    @Test
-    void productEntityToProductTest() {
+	@Test
+	void productEntityToProductTest() {
 
-        ProductEntity productEntity = ProductEntity.builder()
-                .id(1L)
-                .build();
+		final ProductEntity productEntity = ProductEntity.builder().id(1L).build();
 
-        Product product = productEntityMapper.productEntityToProduct(productEntity);
+		final Product product = this.productEntityMapper.productEntityToProduct(productEntity);
 
-        assertEquals(productEntity.getId(), product.getId());
-    }
+		assertEquals(productEntity.getId(), product.getId());
+	}
+
+	@Test
+	void productToProductEntityTest() {
+		final Product product = Product.builder().id(3L).build();
+
+		final ProductEntity entity = this.productEntityMapper.productToProductEntity(product);
+
+		assertEquals(product.getId(), entity.getId());
+	}
+
+	@Test
+	void productEntityToProductNullInputReturnsNull() {
+		final Product result = this.productEntityMapper.productEntityToProduct(null);
+		assertNull(result);
+	}
+
+	@Test
+	void productToProductEntityNullInputReturnsNull() {
+		final ProductEntity result = this.productEntityMapper.productToProductEntity(null);
+		assertNull(result);
+	}
 }
